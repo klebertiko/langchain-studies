@@ -56,7 +56,7 @@ chain = LLMChain(llm=llm, prompt=prompt)
 
 # Executar a transformação
 input_data_json = json.dumps(input_data, indent=2)
-response = chain.run(input_data=input_data_json)
+response = chain.run(input_data=input_data_json) 
 
 # Exibir o resultado transformado
 print("JSON Transformado:")
