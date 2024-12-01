@@ -2,4 +2,3 @@ langchain
 langchain-community
 llama-cpp-python
 openai
-# git+https://github.com/google-deepmind/onetwo
