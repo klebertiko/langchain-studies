@@ -2,3 +2,6 @@ langchain
 langchain-community
 llama-cpp-python
 openai
+selenium
+Pillow
+webdriver-manager
