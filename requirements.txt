@@ -5,3 +5,5 @@ openai
 selenium
 Pillow
 webdriver-manager
+pandas
+pydantic
