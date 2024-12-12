@@ -12,6 +12,8 @@ pip install -r requirements.txt
 This file shows how to use langchain to load a local llm and chat with it.
 Tested with lhama2-7b-chat.Q4_K_M.gguf
 Download here: https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/blob/main/llama-2-7b-chat.Q4_K_M.gguf
+Tested with codellama-7b.Q4_K_M.gguf
+Download here: https://huggingface.co/TheBloke/CodeLlama-7B-GGUF/blob/main/codellama-7b.Q4_K_M.gguf
 ```bash
 python3 hello_langchain.py
 ```

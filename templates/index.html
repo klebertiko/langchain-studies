@@ -118,6 +118,19 @@
             }
         }
 
+        function resetSubsequentSteps(startIndex) {
+            for (let i = startIndex + 1; i < steps.length; i++) {
+                steps[i].disabled = true;
+                steps[i].classList.remove("success", "error", "processing");
+                results[stepMapping[i]] = null;
+
+                // Resetar as linhas
+                if (i < lines.length) {
+                    lines[i].classList.remove("line-success");
+                }
+            }
+        }
+
         // Adicionar evento de clique para cada etapa
         steps.forEach((step, index) => {
             step.addEventListener("click", () => {
@@ -126,6 +139,9 @@
                     resultDiv.innerHTML = `<p class="text-danger">Erro: A etapa anterior deve ser concluída com sucesso antes de processar esta etapa.</p>`;
                     return;
                 }
+
+                // Resetar as etapas subsequentes
+                resetSubsequentSteps(index);
 
                 runStep(index);
             });

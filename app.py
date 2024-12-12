@@ -150,7 +150,7 @@ def generate_mapping(inputs: dict) -> dict:
     """
     mapping_prompt = PromptTemplate(
         template="""
-        Given the JSON structure, generate a valid JSOM mapping.
+        Given the JSON structure, generate a valid JSOM object mapping.
 
         JSON Structure:
         {json_input}
