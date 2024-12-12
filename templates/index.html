@@ -95,17 +95,25 @@
                     step.classList.remove("processing");
                     step.classList.add("error");
                     resultDiv.innerHTML = `<p class="text-danger">Erro: ${data.message}</p>`;
+
+                    // Permitir que o usuário clique novamente na etapa com erro
+                    step.disabled = false;
                 }
             } catch (error) {
                 step.classList.remove("processing");
                 step.classList.add("error");
                 resultDiv.innerHTML = `<p class="text-danger">Erro: ${error.message}</p>`;
+
+                // Permitir que o usuário clique novamente na etapa com erro
+                step.disabled = false;
             }
         }
 
         // Adicionar evento de clique para cada etapa
         steps.forEach((step, index) => {
-            step.addEventListener("click", () => runStep(index));
+            step.addEventListener("click", () => {
+                runStep(index);
+            });
         });
     </script>
 </body>

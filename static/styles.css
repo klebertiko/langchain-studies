@@ -1,9 +1,10 @@
 /* Estilo do Banner do Header */
 .header-banner {
-    background-color: #007bff; /* Azul moderno */
+    background: linear-gradient(135deg, #6a11cb, #9215b8); /* Gradiente moderno */
     padding: 20px 0;
     margin-bottom: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid #7a7a7a;
 }
 
 .header-banner h1 {
@@ -31,11 +32,11 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #f1f1f1; /* Cinza claro */
+    background-color: #b6b6b6;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #333; /* Cinza escuro */
+    color: #333333; 
     font-weight: bold;
     margin-bottom: 10px;
     border: none;
@@ -69,6 +70,21 @@
 
 .line.line-success {
     background-color: #28a745; /* Verde */
+}
+
+/* Botão de Processar */
+#process-button {
+    background-color: #6a11cb; /* Cor do gradiente */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+#process-button:hover {
+    background-color: #9215b8; /* Cor mais clara ao passar o mouse */
 }
 
 /* Área de Resultado */
