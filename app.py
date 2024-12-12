@@ -16,7 +16,7 @@ app = Flask(__name__)
 llm = LlamaCpp(
     model_path="models/codellama-7b.Q4_K_M.gguf",  # Caminho para o modelo
     n_gpu_layers=40,  # Número de camadas do modelo a serem carregadas na GPU
-    n_batch=1024,  # Tamanho do lote para processamento
+    n_batch=512,  # Tamanho do lote para processamento
     verbose=False,  # Desabilitar logs detalhados
 )
 
@@ -150,20 +150,26 @@ def generate_mapping(inputs: dict) -> dict:
     """
     mapping_prompt = PromptTemplate(
         template="""
-        Generate a mapping to extract data from the input JSON. The response must be a valid JSON.
-        Schema:{schema}
-        Input JSON:{json_input}
-        Mapping Example:{{
+        Given the following JSON structure, generate a valid JSOM mapping to extract the data.
+
+        JSON Structure:
+        {json_input}
+
+        Mapping Example:
+        {{
             "user_id": {{"path": ["data", "user_info", "user_id"]}},
             "user_name": {{"path": ["data", "user_info", "user_name"]}},
             "user_city": {{"path": ["data", "location", "city"]}},
-            "orders": [{{
-                "path": ["data", "orders"],
-                "order_id": "order_id",
-                "product_name": "product",
-                "product_price": "price"
-            }}]
+            "orders": [
+                {{
+                    "path": ["data", "orders"],
+                    "order_id": "order_id",
+                    "product_name": "product",
+                    "product_price": "price"
+                }}
+            ]
         }}
+
         Mapping:
         """,
         input_variables=["schema", "json_input"]

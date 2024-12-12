@@ -8,36 +8,50 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <!-- Banner do Header -->
+    <header class="header-banner">
+        <div class="container">
+            <h1 class="text-center text-white">Workflow de Extração de Dados</h1>
+        </div>
+    </header>
+
     <div class="container mt-5">
-        <h1 class="text-center">Workflow de Extração de Dados</h1>
+        <!-- Workflow de Etapas -->
         <div class="progress-container">
             <div class="step">
                 <button class="circle" id="step1">1</button>
                 <p>Gerar Mapeamento</p>
             </div>
+            <div class="line" id="line1"></div>
             <div class="step">
                 <button class="circle" id="step2" disabled>2</button>
                 <p>Extrair Dados</p>
             </div>
+            <div class="line" id="line2"></div>
             <div class="step">
                 <button class="circle" id="step3" disabled>3</button>
                 <p>Converter para String</p>
             </div>
+            <div class="line" id="line3"></div>
             <div class="step">
                 <button class="circle" id="step4" disabled>4</button>
                 <p>Gerar Saída do Modelo</p>
             </div>
+            <div class="line" id="line4"></div>
             <div class="step">
                 <button class="circle" id="step5" disabled>5</button>
                 <p>Parsear Saída</p>
             </div>
         </div>
-        <div id="result" class="mt-4"></div>
+
+        <!-- Área de Resultado -->
+        <div id="result" class="mt-4 p-4 bg-light rounded shadow"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const steps = document.querySelectorAll(".circle");
+        const lines = document.querySelectorAll(".line");
         const resultDiv = document.getElementById("result");
 
         // Mapeamento das etapas para o backend
@@ -66,7 +80,12 @@
                 if (data.status === "success") {
                     step.classList.remove("processing");
                     step.classList.add("success");
-                    resultDiv.innerHTML = `<pre>${JSON.stringify(data.output, null, 2)}</pre>`;
+                    resultDiv.innerHTML = `<pre class="text-success">${JSON.stringify(data.output, null, 2)}</pre>`;
+
+                    // Atualizar as linhas
+                    if (stepIndex < lines.length) {
+                        lines[stepIndex].classList.add("line-success");
+                    }
 
                     // Liberar a próxima etapa
                     if (stepIndex < steps.length - 1) {
