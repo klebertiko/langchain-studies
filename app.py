@@ -157,14 +157,12 @@ def generate_mapping(inputs: dict) -> dict:
             "user_id": {{"path": ["data", "user_info", "user_id"]}},
             "user_name": {{"path": ["data", "user_info", "user_name"]}},
             "user_city": {{"path": ["data", "location", "city"]}},
-            "orders": [
-                {{
-                    "path": ["data", "orders"],
-                    "order_id": "order_id",
-                    "product_name": "product",
-                    "product_price": "price"
-                }}
-            ]
+            "orders": [{{
+                "path": ["data", "orders"],
+                "order_id": "order_id",
+                "product_name": "product",
+                "product_price": "price"
+            }}]
         }}
         Mapping:
         """,
