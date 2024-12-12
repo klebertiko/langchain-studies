@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow de Extração de Dados</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Workflow de Extração de Dados</h1>
+        <div class="progress-container">
+            <div class="step">
+                <button class="circle" id="step1">1</button>
+                <p>Gerar Mapeamento</p>
+            </div>
+            <div class="step">
+                <button class="circle" id="step2" disabled>2</button>
+                <p>Extrair Dados</p>
+            </div>
+            <div class="step">
+                <button class="circle" id="step3" disabled>3</button>
+                <p>Converter para String</p>
+            </div>
+            <div class="step">
+                <button class="circle" id="step4" disabled>4</button>
+                <p>Gerar Saída do Modelo</p>
+            </div>
+            <div class="step">
+                <button class="circle" id="step5" disabled>5</button>
+                <p>Parsear Saída</p>
+            </div>
+        </div>
+        <div id="result" class="mt-4"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const steps = document.querySelectorAll(".circle");
+        const resultDiv = document.getElementById("result");
+
+        // Mapeamento das etapas para o backend
+        const stepMapping = {
+            0: "generate_mapping",
+            1: "extract_data",
+            2: "json_to_string",
+            3: "generate_output",
+            4: "parse_output"
+        };
+
+        async function runStep(stepIndex) {
+            const step = steps[stepIndex];
+            step.disabled = true;
+            step.classList.remove("success", "error");
+            step.classList.add("processing");
+
+            try {
+                const response = await fetch("/run_step", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ step: stepMapping[stepIndex] }) // Enviar o nome correto da etapa
+                });
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    step.classList.remove("processing");
+                    step.classList.add("success");
+                    resultDiv.innerHTML = `<pre>${JSON.stringify(data.output, null, 2)}</pre>`;
+
+                    // Liberar a próxima etapa
+                    if (stepIndex < steps.length - 1) {
+                        steps[stepIndex + 1].disabled = false;
+                    }
+                } else {
+                    step.classList.remove("processing");
+                    step.classList.add("error");
+                    resultDiv.innerHTML = `<p class="text-danger">Erro: ${data.message}</p>`;
+                }
+            } catch (error) {
+                step.classList.remove("processing");
+                step.classList.add("error");
+                resultDiv.innerHTML = `<p class="text-danger">Erro: ${error.message}</p>`;
+            }
+        }
+
+        // Adicionar evento de clique para cada etapa
+        steps.forEach((step, index) => {
+            step.addEventListener("click", () => runStep(index));
+        });
+    </script>
+</body>
+</html>
