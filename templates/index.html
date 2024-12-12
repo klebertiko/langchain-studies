@@ -63,6 +63,15 @@
             4: "parse_output"
         };
 
+        // Armazena os resultados de cada etapa
+        let results = {
+            generate_mapping: null,
+            extract_data: null,
+            json_to_string: null,
+            generate_output: null,
+            parse_output: null
+        };
+
         async function runStep(stepIndex) {
             const step = steps[stepIndex];
             step.disabled = true;
@@ -78,6 +87,9 @@
                 const data = await response.json();
 
                 if (data.status === "success") {
+                    // Atualizar o resultado da etapa
+                    results[stepMapping[stepIndex]] = data.output;
+
                     step.classList.remove("processing");
                     step.classList.add("success");
                     resultDiv.innerHTML = `<pre class="text-success">${JSON.stringify(data.output, null, 2)}</pre>`;
@@ -95,16 +107,13 @@
                     step.classList.remove("processing");
                     step.classList.add("error");
                     resultDiv.innerHTML = `<p class="text-danger">Erro: ${data.message}</p>`;
-
-                    // Permitir que o usuário clique novamente na etapa com erro
-                    step.disabled = false;
                 }
             } catch (error) {
                 step.classList.remove("processing");
                 step.classList.add("error");
                 resultDiv.innerHTML = `<p class="text-danger">Erro: ${error.message}</p>`;
-
-                // Permitir que o usuário clique novamente na etapa com erro
+            } finally {
+                // Permitir que o usuário clique novamente na etapa
                 step.disabled = false;
             }
         }
@@ -112,6 +121,12 @@
         // Adicionar evento de clique para cada etapa
         steps.forEach((step, index) => {
             step.addEventListener("click", () => {
+                // Verificar se a etapa anterior foi concluída com sucesso
+                if (index > 0 && !results[stepMapping[index - 1]]) {
+                    resultDiv.innerHTML = `<p class="text-danger">Erro: A etapa anterior deve ser concluída com sucesso antes de processar esta etapa.</p>`;
+                    return;
+                }
+
                 runStep(index);
             });
         });

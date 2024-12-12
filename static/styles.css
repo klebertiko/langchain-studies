@@ -72,21 +72,6 @@
     background-color: #28a745; /* Verde */
 }
 
-/* Botão de Processar */
-#process-button {
-    background-color: #6a11cb; /* Cor do gradiente */
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-}
-
-#process-button:hover {
-    background-color: #9215b8; /* Cor mais clara ao passar o mouse */
-}
-
 /* Área de Resultado */
 #result {
     background-color: #f8f9fa; /* Cinza claro */
